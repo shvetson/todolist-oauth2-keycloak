@@ -85,7 +85,8 @@ fun Route.authRouting() {
             )
 
             if (!isValidPassword) {
-                call.respondText("Incorrect username or password", status = HttpStatusCode.Conflict)
+                call.respond(HttpStatusCode.Conflict,
+                    "Incorrect username or password")
                 return@post
             }
 

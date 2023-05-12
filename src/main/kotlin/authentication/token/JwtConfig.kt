@@ -4,9 +4,12 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.typesafe.config.ConfigFactory
+import io.ktor.http.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.config.*
+import io.ktor.server.plugins.*
+import io.ktor.server.response.*
 import java.util.*
 
 /**
@@ -56,6 +59,12 @@ class JwtConfig() {
                 null
             }
         }
+
+        challenge { defaultScheme, realm ->
+            call.respond(HttpStatusCode.Unauthorized,
+                hashMapOf("Error" to "Token is not valid or has expired"))
+        }
+
     }
 
     private fun getExpirationTime() = Date(System.currentTimeMillis() + jwtExpirationPeriod)

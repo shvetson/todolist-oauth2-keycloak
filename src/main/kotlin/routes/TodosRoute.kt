@@ -2,16 +2,14 @@ package ru.shvets.todolist.routes
 
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import ru.shvets.todolist.authentication.token.JwtConfig
 import ru.shvets.todolist.models.ToDo
 import ru.shvets.todolist.models.ToDoDto
-import ru.shvets.todolist.repositories.PostgresToDoRepositoryImpl
 import ru.shvets.todolist.repositories.ToDoRepository
+import ru.shvets.todolist.repositories.ToDoRepositoryImpl
 
 /**
  * @author  Oleg Shvets
@@ -20,13 +18,7 @@ import ru.shvets.todolist.repositories.ToDoRepository
  */
 
 fun Route.todosRouting() {
-//    val repository: ToDoRepository = InMemoryToDoRepository()
-    val repository: ToDoRepository = PostgresToDoRepositoryImpl()
-
-    get("me") {
-        val user = call.authentication.principal as JwtConfig.JwtUser
-        call.respond(user)
-    }
+    val repository: ToDoRepository = ToDoRepositoryImpl()
 
     route("todos") {
 
@@ -45,7 +37,10 @@ fun Route.todosRouting() {
                 )
                 return@post
             }
-            call.respond(todo)
+            call.respond(
+                HttpStatusCode.OK,
+                hashMapOf("Todo" to todo)
+            )
         }
 
         get("{id}") {

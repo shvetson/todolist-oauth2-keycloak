@@ -13,7 +13,7 @@ import ru.shvets.todolist.models.ToDoDto
  * @date  10.05.2023 10:07
  */
 
-class PostgresToDoRepositoryImpl : ToDoRepository {
+class ToDoRepositoryImpl : ToDoRepository {
 
     override suspend fun getAllToDo(): List<ToDo> = dbQuery {
         ToDos.selectAll().map(::rowToToDo)
