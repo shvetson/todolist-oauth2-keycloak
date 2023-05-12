@@ -1,4 +1,4 @@
-package ru.shvets.plugins
+package ru.shvets.todolist.plugins
 
 import io.ktor.server.plugins.callloging.*
 import org.slf4j.event.*

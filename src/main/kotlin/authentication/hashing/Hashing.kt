@@ -6,7 +6,7 @@ package ru.shvets.todolist.authentication.hashing
  * @date  28.03.2023 09:56
  */
 
-interface HashingService {
+interface Hashing {
     fun generateSaltedHash(value: String, saltLength: Int = 32): SaltedHash
     fun verify(value: String, saltedHash: SaltedHash): Boolean
 }

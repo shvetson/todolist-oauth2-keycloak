@@ -1,4 +1,4 @@
-package ru.shvets.todolist.authentication
+package ru.shvets.todolist.authentication.token
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier

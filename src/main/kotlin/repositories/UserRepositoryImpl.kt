@@ -1,9 +1,6 @@
 package ru.shvets.todolist.repositories
 
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import ru.shvets.todolist.database.DatabaseFactory.dbQuery
 import ru.shvets.todolist.entities.Users
 import ru.shvets.todolist.models.User
@@ -14,11 +11,11 @@ import ru.shvets.todolist.models.User
  * @date  11.05.2023 21:14
  */
 
-class PostgresUserRepository : UserRepository {
+class UserRepositoryImpl : UserRepository {
 
-    override suspend fun getUser(username: String, password: String): User? = dbQuery{
+    override suspend fun getUser(username: String, password: String): User? = dbQuery {
         Users.select { Users.email.eq(username).and(Users.password.eq(password)) }
-            .map {it -> rowToUser(it)}
+            .map { it -> rowToUser(it) }
             .singleOrNull()
     }
 
@@ -33,11 +30,20 @@ class PostgresUserRepository : UserRepository {
             .singleOrNull()
     }
 
+    override suspend fun addUser(user: User): User? = dbQuery {
+        Users.insert { it ->
+            it[Users.email] = user.email
+            it[Users.password] = user.password
+            it[Users.salt] = user.salt
+        }.resultedValues?.singleOrNull()?.let(::rowToUser)
+    }
+
     private fun rowToUser(row: ResultRow): User =
         User(
             id = row[Users.id],
             email = row[Users.email],
             password = row[Users.password],
-            active = row[Users.active]
+            salt = row[Users.salt],
+            active = row[Users.active],
         )
 }

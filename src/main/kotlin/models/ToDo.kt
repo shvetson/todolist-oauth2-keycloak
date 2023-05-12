@@ -1,4 +1,6 @@
-package ru.shvets.todolist.entities
+package ru.shvets.todolist.models
+
+import kotlinx.serialization.Serializable
 
 /**
  * @author  Oleg Shvets
@@ -6,8 +8,9 @@ package ru.shvets.todolist.entities
  * @date  09.05.2023 18:59
  */
 
+@Serializable
 data class ToDo(
-    val id: Long,
-    val title: String,
-    val isDone: Boolean
+    val id: Long = 0L,
+    var title: String,
+    var isDone: Boolean
 )

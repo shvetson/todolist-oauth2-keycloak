@@ -9,7 +9,7 @@ import ru.shvets.todolist.models.ToDoDto
  * @date  09.05.2023 19:19
  */
 
-class InMemoryToDoRepository : ToDoRepository {
+class InMemoryToDoRepositoryImpl : ToDoRepository {
 
     private val todos = mutableListOf<ToDo>()
 
