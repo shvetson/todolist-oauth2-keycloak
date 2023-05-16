@@ -1,15 +1,21 @@
 package ru.shvets.todolist.routes
 
+import io.konform.validation.Invalid
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import ru.shvets.todolist.models.ToDo
-import ru.shvets.todolist.models.ToDoDto
-import ru.shvets.todolist.repositories.ToDoRepository
-import ru.shvets.todolist.repositories.ToDoRepositoryImpl
+import ru.shvets.todolist.models.ToDoId
+import ru.shvets.todolist.repository.base.ITodoRepository
+import ru.shvets.todolist.repository.todo.TodoFilterRequest
+import ru.shvets.todolist.repository.todo.TodoIdRequest
+import ru.shvets.todolist.repository.todo.TodoRepository
+import ru.shvets.todolist.repository.todo.TodoRequest
+import ru.shvets.todolist.validate.resultErrorEmptyId
+import ru.shvets.todolist.validate.resultErrorSaving
+import ru.shvets.todolist.validate.resultErrorValidation
 
 /**
  * @author  Oleg Shvets
@@ -18,95 +24,67 @@ import ru.shvets.todolist.repositories.ToDoRepositoryImpl
  */
 
 fun Route.todosRouting() {
-    val repository: ToDoRepository = ToDoRepositoryImpl()
+    val todoRepository: ITodoRepository = TodoRepository()
 
     route("todos") {
 
-        get() {
-            val list: List<ToDo> = repository.getAllToDo() ?: emptyList()
-            call.respond(list)
-        }
+        post("create") {
+            val request = call.receive<TodoRequest>()
 
-        post() {
-            val toDoDraft = call.receive<ToDoDto>()
-            val todo = repository.addToDo(toDoDraft)
-            if (todo == null) {
-                call.respond(
-                    HttpStatusCode.BadRequest,
-                    "Error saving a new todo"
-                )
+            val validationResult =
+                TodoRequest(ToDo(title = request.toDo.title, isDone = request.toDo.isDone)).validate()
+            if (validationResult is Invalid<TodoRequest>) {
+                call.respond(HttpStatusCode.Conflict, resultErrorValidation(validationResult))
                 return@post
             }
-            call.respond(
-                HttpStatusCode.OK,
-                hashMapOf("Todo" to todo)
-            )
+
+            val response = todoRepository.createTodo(request)
+            if (response.data == null) {
+                call.respond(HttpStatusCode.BadRequest, resultErrorSaving)
+                return@post
+            }
+
+            call.respond(HttpStatusCode.Created, response)
         }
 
-        get("{id}") {
-            val id = call.parameters.getOrFail("id").toLongOrNull()
-            if (id == null) {
-                call.respond(
-                    HttpStatusCode.BadRequest,
-                    "Wrong Id"
-                )
-                return@get
-            }
+        post("read") {
+            val request = call.receive<TodoIdRequest>()
 
-            val todo = repository.getToDo(id)
-            if (todo == null) {
-                call.respond(
-                    HttpStatusCode.NotFound,
-                    "Found no todo for the provided id $id"
-                )
-            } else {
-                call.respond(todo)
-            }
+            request.id.takeIf { it != ToDoId.NONE }?.let {
+                val response = todoRepository.readTodo(request)
+                call.respond(HttpStatusCode.OK, response)
+            } ?: call.respond(HttpStatusCode.BadRequest, resultErrorEmptyId)
         }
 
-        put("{id}") {
-            val todoId = call.parameters["id"]?.toLongOrNull()
-            val toDoDraft = call.receive<ToDoDto>()
+        post("update") {
+            val request = call.receive<TodoRequest>()
 
-            if (todoId == null) {
-                call.respond(
-                    HttpStatusCode.BadRequest,
-                    "Id parameter has to be a number!"
-                )
-                return@put
+            val validationResult =
+                TodoRequest(ToDo(title = request.toDo.title, isDone = request.toDo.isDone)).validate()
+            if (validationResult is Invalid<TodoRequest>) {
+                call.respond(HttpStatusCode.Conflict, resultErrorValidation(validationResult))
+                return@post
             }
 
-            val updated = repository.updateToDo(todoId, toDoDraft)
-            if (updated) {
-                call.respond(HttpStatusCode.OK)
-            } else {
-                call.respond(
-                    HttpStatusCode.NotFound,
-                    "Found no todo with id $todoId"
-                )
-            }
+            request.toDo.id.takeIf { it != ToDoId.NONE }?.let {
+                val response = todoRepository.updateTodo(request)
+                call.respond(HttpStatusCode.OK, response)
+            } ?: call.respond(HttpStatusCode.BadRequest, resultErrorEmptyId)
         }
 
-        delete("{id}") {
-            val todoId = call.parameters["id"]?.toLongOrNull()
+        post("delete") {
+            val request = call.receive<TodoIdRequest>()
 
-            if (todoId == null) {
-                call.respond(
-                    HttpStatusCode.BadRequest,
-                    "Id parameter has to be a number!"
-                )
-                return@delete
-            }
+            request.id.takeIf { it != ToDoId.NONE }?.let {
+                val response = todoRepository.deleteTodo(request)
+                call.respond(HttpStatusCode.OK, response)
+            } ?: call.respond(HttpStatusCode.BadRequest, resultErrorEmptyId)
+        }
 
-            val removed = repository.removeTodo(todoId)
-            if (removed) {
-                call.respond(HttpStatusCode.OK)
-            } else {
-                call.respond(
-                    HttpStatusCode.NotFound,
-                    "Found no todo with id $todoId"
-                )
-            }
+        post("search"){
+            val request = call.receive<TodoFilterRequest>()
+            val response = todoRepository.searchTodos(request)
+            call.respond(HttpStatusCode.OK, response)
         }
     }
 }

@@ -1,4 +1,4 @@
-package ru.shvets.todolist.repositories
+package ru.shvets.todolist.repository
 
 import ru.shvets.todolist.models.User
 

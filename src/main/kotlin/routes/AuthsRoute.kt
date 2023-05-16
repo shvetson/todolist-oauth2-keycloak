@@ -1,5 +1,6 @@
 package ru.shvets.todolist.routes
 
+import io.konform.validation.Invalid
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -7,13 +8,14 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.shvets.todolist.authentication.AuthRequest
+import ru.shvets.todolist.models.requests.AuthRequest
 import ru.shvets.todolist.authentication.hashing.SHA256HashingService
 import ru.shvets.todolist.authentication.hashing.SaltedHash
 import ru.shvets.todolist.authentication.token.JwtConfig
 import ru.shvets.todolist.models.User
-import ru.shvets.todolist.repositories.UserRepository
-import ru.shvets.todolist.repositories.UserRepositoryImpl
+import ru.shvets.todolist.repository.UserRepository
+import ru.shvets.todolist.repository.UserRepositoryImpl
+import ru.shvets.todolist.validate.resultErrorValidation
 
 /**
  * @author  Oleg Shvets
@@ -30,21 +32,21 @@ fun Route.authRouting() {
 
         post("signup") {
             val request = call.receive<AuthRequest>()
+            val validationResult = AuthRequest(request.username, request.password).validate()
 
-            val areFieldsBlank = request.username.isBlank() || request.password.isBlank()
-            val isPasswordShort = request.password.length < 8
+            if (validationResult is Invalid<AuthRequest>) {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    resultErrorValidation(validationResult)
+                )
+                return@post
+            }
 
             if (repository.getUserByEmail(request.username) != null) {
                 call.respond(
                     HttpStatusCode.Conflict,
                     "Username is already exists"
                 )
-                return@post
-            }
-
-            if (areFieldsBlank || isPasswordShort) {
-                call.respond(HttpStatusCode.Conflict,
-                "Bad data input!")
                 return@post
             }
 
@@ -61,18 +63,34 @@ fun Route.authRouting() {
                 call.respond(HttpStatusCode.Conflict)
                 return@post
             } else {
-                call.respond(HttpStatusCode.OK,
-                "User was added successfully!")
+                call.respond(
+                    HttpStatusCode.OK,
+                    "User was added successfully!"
+                )
             }
         }
 
         post("/signin") {
             val request = call.receive<AuthRequest>()
+            val username = request.username
+            val password = request.password
+            val validationResult = AuthRequest(username, password).validate()
+
+            if (validationResult is Invalid<AuthRequest>) {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    resultErrorValidation(validationResult)
+                )
+                return@post
+            }
+
             val user = repository.getUserByEmail(request.username)
 
             if (user == null) {
-                call.respond(HttpStatusCode.Conflict,
-                    "Incorrect username or password")
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Incorrect username or password"
+                )
                 return@post
             }
 
@@ -85,23 +103,28 @@ fun Route.authRouting() {
             )
 
             if (!isValidPassword) {
-                call.respond(HttpStatusCode.Conflict,
-                    "Incorrect username or password")
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Incorrect username or password"
+                )
                 return@post
             }
 
             val token = jwtConfig.generateToken(JwtConfig.JwtUser(user.id, user.email))
-            call.respond(HttpStatusCode.OK,
-                hashMapOf("Token" to token))
-
+            call.respond(
+                HttpStatusCode.OK,
+                hashMapOf("Token" to token)
+            )
         }
 
         authenticate {
             get("user") {
                 val principal = call.principal<JWTPrincipal>()
                 val userName = principal?.getClaim("userName", String::class)
-                call.respond(HttpStatusCode.OK,
-                    "User : $userName")
+                call.respond(
+                    HttpStatusCode.OK,
+                    "User : $userName"
+                )
             }
         }
     }

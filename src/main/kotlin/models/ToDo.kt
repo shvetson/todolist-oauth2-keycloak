@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ToDo(
-    val id: Long = 0L,
-    var title: String,
-    var isDone: Boolean
+    var id: ToDoId = ToDoId.NONE,
+    var title: String = "",
+    var isDone: Boolean = false,
 )

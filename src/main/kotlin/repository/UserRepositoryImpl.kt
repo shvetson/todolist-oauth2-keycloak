@@ -1,4 +1,4 @@
-package ru.shvets.todolist.repositories
+package ru.shvets.todolist.repository
 
 import org.jetbrains.exposed.sql.*
 import ru.shvets.todolist.database.DatabaseFactory.dbQuery
