@@ -1,4 +1,4 @@
-package ru.shvets.todolist.repository.todo
+package ru.shvets.todolist.models.requests.todo
 
 import kotlinx.serialization.Serializable
 
@@ -11,4 +11,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TodoFilterRequest(
     val title: String = "",
+    val isDone:Boolean? = null,
 )

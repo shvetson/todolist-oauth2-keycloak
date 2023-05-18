@@ -4,9 +4,11 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import ru.shvets.todolist.database.DatabaseFactory.dbQuery
-import ru.shvets.todolist.entities.ToDos
-import ru.shvets.todolist.models.ToDo
-import ru.shvets.todolist.models.ToDoId
+import ru.shvets.todolist.entities.TodosTable
+import ru.shvets.todolist.entities.TodosTable.fromRow
+import ru.shvets.todolist.models.requests.todo.TodoFilterRequest
+import ru.shvets.todolist.models.requests.todo.TodoIdRequest
+import ru.shvets.todolist.models.requests.todo.TodoRequest
 import ru.shvets.todolist.repository.base.ITodoRepository
 
 /**
@@ -17,72 +19,69 @@ import ru.shvets.todolist.repository.base.ITodoRepository
 
 class TodoRepository() : ITodoRepository {
     override suspend fun createTodo(request: TodoRequest): TodoResponse = dbQuery {
-        val result = ToDos.insert { td ->
-            td[ToDos.title] = request.toDo.title
-            td[ToDos.isDone] = request.toDo.isDone
-        }.resultedValues?.singleOrNull()?.let(::rowToToDo)
-
-        TodoResponse(
-            data = result,
-            isSuccess = true
-        )
+        val toDo = request.toDo
+        val res = TodosTable.insert { toRow(it, toDo) }
+            .resultedValues?.singleOrNull()?.let(::fromRow) ?: return@dbQuery TodoResponse.errorSave
+        TodoResponse.success(res)
     }
 
     override suspend fun readTodo(request: TodoIdRequest): TodoResponse = dbQuery {
         val id = request.id
-        val result = ToDos.select { ToDos.id eq (id.asString().toLong()) }
-            .map(::rowToToDo)
-            .singleOrNull()
-
-        TodoResponse(
-            data = result,
-            isSuccess = true
-        )
+        val res = TodosTable.select { TodosTable.id eq (id.asString().toLong()) }
+            .map(::fromRow)
+            .singleOrNull() ?: return@dbQuery TodoResponse.errorNotFound
+        TodoResponse.success(res)
     }
 
     override suspend fun updateTodo(request: TodoRequest): TodoResponse = dbQuery {
         val id = request.toDo.id
-
-        val result: Boolean = ToDos.update({ ToDos.id eq (id.asString().toLong()) }) { td ->
-            td[ToDos.title] = request.toDo.title
-            td[ToDos.isDone] = request.toDo.isDone
-        } > 0
-
-        TodoResponse(
-            data = request.toDo,
-            isSuccess = result
-        )
+//        if (id == ToDoId.NONE) return@dbQuery TodoResponse.errorEmptyId
+        val todo = runBlocking { readTodo(TodoIdRequest(id)).data } ?: return@dbQuery TodoResponse.errorNotFound
+        val toDo = request.toDo
+        val res: Boolean = TodosTable.update({ TodosTable.id eq (id.asString().toLong()) }) { toRow(it, toDo) } > 0
+        TodoResponse.result(toDo, res)
     }
 
     override suspend fun deleteTodo(request: TodoIdRequest): TodoResponse = dbQuery {
         val id = request.id
-        val todo = runBlocking { readTodo(request).data }
-
-        val result: Boolean = ToDos.deleteWhere { ToDos.id eq (id.asString().toLong()) } > 0
-
-        TodoResponse(
-            data = todo,
-            isSuccess = result
-        )
+        val todo = runBlocking { readTodo(request).data } ?: return@dbQuery TodoResponse.errorNotFound
+        val res: Boolean = TodosTable.deleteWhere { TodosTable.id eq (id.asString().toLong()) } > 0
+        TodoResponse.result(todo, res)
     }
 
     override suspend fun searchTodos(request: TodoFilterRequest): TodosResponse = dbQuery {
         val title = request.title
+        val isDone = request.isDone
 
-        val result = ToDos.select { ToDos.title like "%${title}%" }
-            .orderBy(ToDos.id)
-            .map(::rowToToDo)
+//        val result = ToDos.select { ToDos.title like "%${title}%" }
+//            .orderBy(ToDos.id)
+//            .map(::rowToToDo)
+
+//        val result = ToDos.select {
+//            buildList {
+//                add(Op.TRUE)
+//                if (title.isNotBlank()) {
+//                    add(ToDos.title like "%${title}%")
+//                }
+//                if (isDone != null) {
+//                    add(ToDos.isDone eq isDone)
+//                }
+//            }.reduce { a, b -> a and b }
+//        }
+//            .orderBy(ToDos.id)
+//            .map(::toToDo)
+
+        val res = TodosTable.selectAll()
+        isDone?.let {
+            res.andWhere { TodosTable.isDone eq request.isDone }
+        }
+        title.isBlank().let {
+            res.andWhere { TodosTable.title like "%${title}%" }
+        }
 
         TodosResponse(
-            data = result,
+            data = res.orderBy(TodosTable.id).map(::fromRow),
             isSuccess = true
         )
     }
-
-    private fun rowToToDo(row: ResultRow): ToDo =
-        ToDo(
-            id = ToDoId(row[ToDos.id].toString()),
-            title = row[ToDos.title],
-            isDone = row[ToDos.isDone]
-        )
 }

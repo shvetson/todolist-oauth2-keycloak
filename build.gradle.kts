@@ -10,6 +10,9 @@ val postgresVersion: String by project
 val commonsCodecVersion: String by project
 val konformVersion: String by project
 
+val kotestVersion: String by project
+val jUnitJupiterVersion: String by project
+
 plugins {
     id("application")
     kotlin("jvm")
@@ -55,4 +58,28 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("io.konform:konform-jvm:$konformVersion")
 
+    testImplementation(kotlin("test-junit5"))
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:$jUnitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$jUnitJupiterVersion")
+}
+
+tasks {
+    withType<Test>().configureEach {
+        //useJUnitPlatform необходимо для работы с junit5, в случае работы с junit (по умолчанию версия 4) эти настройки не нужны
+        useJUnitPlatform {
+//            includeTags.add("sampling")
+        }
+
+        filter {
+            isFailOnNoMatchingTests = false
+        }
+        testLogging {
+            showExceptions = true
+            showStandardStreams = true
+            events = setOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED)
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+    }
 }

@@ -4,6 +4,9 @@ import kotlinx.serialization.Serializable
 import ru.shvets.todolist.models.ToDo
 import ru.shvets.todolist.repository.base.BaseError
 import ru.shvets.todolist.repository.base.IBaseResponse
+import ru.shvets.todolist.helper.errorNotFound as tdErrorNotFound
+import ru.shvets.todolist.helper.errorSave as tdErrorSave
+import ru.shvets.todolist.helper.errorEmptyId as tdErrorEmptyId
 
 /**
  * @author  Oleg Shvets
@@ -20,7 +23,12 @@ data class TodoResponse(
 
     companion object {
         fun success(result: ToDo) = TodoResponse(result, true)
+        fun result(result: ToDo, isSuccess: Boolean) = TodoResponse(result, isSuccess)
         fun error(errors: List<BaseError>) = TodoResponse(null, false, errors)
-        fun error(error: BaseError) = TodoResponse(null, false, listOf(error))
+        private fun error(error: BaseError) = TodoResponse(null, false, listOf(error))
+
+        val errorNotFound = error(tdErrorNotFound)
+        val errorSave = error(tdErrorSave)
+        val errorEmptyId = error(tdErrorEmptyId)
     }
 }

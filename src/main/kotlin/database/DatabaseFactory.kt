@@ -11,8 +11,8 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
-import ru.shvets.todolist.entities.ToDos
-import ru.shvets.todolist.entities.Users
+import ru.shvets.todolist.entities.TodosTable
+import ru.shvets.todolist.entities.UsersTable
 
 /**
  * @author  Oleg Shvets
@@ -28,12 +28,14 @@ object DatabaseFactory {
     private val user = appConfig.property("db.username").getString()
     private val pass = appConfig.property("db.password").getString()
 
-    fun init() {
-        Database.connect(hikari())
+    val db = Database.connect(hikari())
 
-        transaction {
+    fun init() {
+        transaction(db) {
             addLogger(StdOutSqlLogger)
-            SchemaUtils.create(ToDos, Users)
+            SchemaUtils.create(TodosTable, UsersTable)
+//            SchemaUtils.drop(ToDos, Users)
+            SchemaUtils.createMissingTablesAndColumns(TodosTable, UsersTable)
         }
     }
 
@@ -54,7 +56,7 @@ object DatabaseFactory {
 
     suspend fun <T> dbQuery(block: () -> T): T =
         withContext(Dispatchers.IO) {
-            transaction {
+            transaction(db) {
 //                addLogger(StdOutSqlLogger)
                 block()
             }

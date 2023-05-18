@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.Table
  * @date  11.05.2023 21:06
  */
 
-object Users: Table() {
+object UsersTable: Table() {
     val id: Column<Long> = long("id").autoIncrement().uniqueIndex()
     val email: Column<String> = varchar("email", 100).uniqueIndex()
     val password: Column<String> = varchar("password", 100)

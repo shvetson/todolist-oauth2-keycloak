@@ -8,7 +8,7 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.shvets.todolist.models.requests.AuthRequest
+import ru.shvets.todolist.models.requests.auth.AuthRequest
 import ru.shvets.todolist.authentication.hashing.SHA256HashingService
 import ru.shvets.todolist.authentication.hashing.SaltedHash
 import ru.shvets.todolist.authentication.token.JwtConfig

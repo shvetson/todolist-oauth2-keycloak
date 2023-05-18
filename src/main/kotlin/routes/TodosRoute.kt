@@ -9,10 +9,10 @@ import io.ktor.server.routing.*
 import ru.shvets.todolist.models.ToDo
 import ru.shvets.todolist.models.ToDoId
 import ru.shvets.todolist.repository.base.ITodoRepository
-import ru.shvets.todolist.repository.todo.TodoFilterRequest
-import ru.shvets.todolist.repository.todo.TodoIdRequest
+import ru.shvets.todolist.models.requests.todo.TodoFilterRequest
+import ru.shvets.todolist.models.requests.todo.TodoIdRequest
 import ru.shvets.todolist.repository.todo.TodoRepository
-import ru.shvets.todolist.repository.todo.TodoRequest
+import ru.shvets.todolist.models.requests.todo.TodoRequest
 import ru.shvets.todolist.validate.resultErrorEmptyId
 import ru.shvets.todolist.validate.resultErrorSaving
 import ru.shvets.todolist.validate.resultErrorValidation
@@ -31,8 +31,12 @@ fun Route.todosRouting() {
         post("create") {
             val request = call.receive<TodoRequest>()
 
-            val validationResult =
-                TodoRequest(ToDo(title = request.toDo.title, isDone = request.toDo.isDone)).validate()
+            val toDo = ToDo(
+                title = request.toDo.title,
+                isDone = request.toDo.isDone
+            )
+
+            val validationResult = TodoRequest(toDo).validate()
             if (validationResult is Invalid<TodoRequest>) {
                 call.respond(HttpStatusCode.Conflict, resultErrorValidation(validationResult))
                 return@post
@@ -42,9 +46,9 @@ fun Route.todosRouting() {
             if (response.data == null) {
                 call.respond(HttpStatusCode.BadRequest, resultErrorSaving)
                 return@post
+            } else {
+                call.respond(HttpStatusCode.Created, response)
             }
-
-            call.respond(HttpStatusCode.Created, response)
         }
 
         post("read") {
@@ -81,7 +85,7 @@ fun Route.todosRouting() {
             } ?: call.respond(HttpStatusCode.BadRequest, resultErrorEmptyId)
         }
 
-        post("search"){
+        post("search") {
             val request = call.receive<TodoFilterRequest>()
             val response = todoRepository.searchTodos(request)
             call.respond(HttpStatusCode.OK, response)

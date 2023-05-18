@@ -1,5 +1,8 @@
 package ru.shvets.todolist.repository.base
 
+import ru.shvets.todolist.models.requests.todo.TodoFilterRequest
+import ru.shvets.todolist.models.requests.todo.TodoIdRequest
+import ru.shvets.todolist.models.requests.todo.TodoRequest
 import ru.shvets.todolist.repository.todo.*
 
 /**

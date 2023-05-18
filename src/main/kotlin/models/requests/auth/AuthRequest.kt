@@ -1,4 +1,4 @@
-package ru.shvets.todolist.models.requests
+package ru.shvets.todolist.models.requests.auth
 
 import io.konform.validation.Validation
 import io.konform.validation.ValidationResult
