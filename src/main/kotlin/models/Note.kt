@@ -1,4 +1,4 @@
-package ru.shvets.todolist.models
+package models
 
 /**
  * @author  Oleg Shvets

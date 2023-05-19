@@ -1,4 +1,4 @@
-package ru.shvets.todolist.entities
+package entities
 
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table

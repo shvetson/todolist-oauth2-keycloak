@@ -1,4 +1,4 @@
-package ru.shvets.todolist.repository.base
+package repositories.base
 
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package ru.shvets.todolist.authentication.hashing
+package authentication.hashing
 
 /**
  * @author  Oleg Shvets

@@ -1,4 +1,4 @@
-package ru.shvets.todolist.models.requests.auth
+package models.requests.auth
 
 import io.konform.validation.Validation
 import io.konform.validation.ValidationResult
@@ -6,7 +6,7 @@ import io.konform.validation.jsonschema.maxLength
 import io.konform.validation.jsonschema.minLength
 import io.konform.validation.jsonschema.pattern
 import kotlinx.serialization.Serializable
-import ru.shvets.todolist.validate.Validatable
+import validate.Validatable
 
 /**
  * @author  Oleg Shvets

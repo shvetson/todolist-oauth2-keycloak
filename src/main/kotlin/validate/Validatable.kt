@@ -1,4 +1,4 @@
-package ru.shvets.todolist.validate
+package validate
 
 import io.konform.validation.ValidationResult
 

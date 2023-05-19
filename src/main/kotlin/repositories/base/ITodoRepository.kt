@@ -1,9 +1,10 @@
-package ru.shvets.todolist.repository.base
+package repositories.base
 
-import ru.shvets.todolist.models.requests.todo.TodoFilterRequest
-import ru.shvets.todolist.models.requests.todo.TodoIdRequest
-import ru.shvets.todolist.models.requests.todo.TodoRequest
-import ru.shvets.todolist.repository.todo.*
+import repositories.todo.TodoResponse
+import repositories.todo.TodosResponse
+import models.requests.todo.TodoFilterRequest
+import models.requests.todo.TodoIdRequest
+import models.requests.todo.TodoRequest
 
 /**
  * @author  Oleg Shvets

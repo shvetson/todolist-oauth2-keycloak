@@ -1,4 +1,4 @@
-package ru.shvets.todolist.routes
+package routes
 
 import io.konform.validation.Invalid
 import io.ktor.http.*
@@ -8,14 +8,14 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.shvets.todolist.models.requests.auth.AuthRequest
-import ru.shvets.todolist.authentication.hashing.SHA256HashingService
-import ru.shvets.todolist.authentication.hashing.SaltedHash
-import ru.shvets.todolist.authentication.token.JwtConfig
-import ru.shvets.todolist.models.User
-import ru.shvets.todolist.repository.UserRepository
-import ru.shvets.todolist.repository.UserRepositoryImpl
-import ru.shvets.todolist.validate.resultErrorValidation
+import models.requests.auth.AuthRequest
+import authentication.hashing.SHA256HashingService
+import authentication.hashing.SaltedHash
+import authentication.token.JwtConfig
+import models.User
+import repositories.UserRepository
+import repositories.UserRepositoryImpl
+import validate.resultErrorValidation
 
 /**
  * @author  Oleg Shvets

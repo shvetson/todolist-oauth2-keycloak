@@ -1,8 +1,8 @@
-package ru.shvets.todolist.validate
+package validate
 
 import io.konform.validation.Invalid
-import ru.shvets.todolist.repository.base.BaseError
-import ru.shvets.todolist.repository.todo.TodoResponse
+import repositories.todo.TodoResponse
+import repositories.base.BaseError
 
 /**
  * @author  Oleg Shvets

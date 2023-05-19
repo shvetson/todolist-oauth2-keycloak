@@ -1,4 +1,4 @@
-package ru.shvets.todolist.plugins
+package plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

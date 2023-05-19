@@ -1,5 +1,7 @@
-package ru.shvets.todolist.authentication.hashing
+package authentication.hashing
 
+import authentication.hashing.Hashing
+import authentication.hashing.SaltedHash
 import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.DigestUtils
 import java.security.SecureRandom

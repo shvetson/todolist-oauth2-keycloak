@@ -2,10 +2,10 @@ package ru.shvets
 
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Test
-import ru.shvets.todolist.database.DatabaseFactory.db
-import ru.shvets.todolist.models.ToDo
-import ru.shvets.todolist.models.ToDoId
-import ru.shvets.todolist.models.Todos
+import database.DatabaseFactory.db
+import models.ToDo
+import models.ToDoId
+import models.Todos
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 

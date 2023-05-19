@@ -1,5 +1,4 @@
-package ru.shvets.todolist.repository.base
-
+package repositories.base
 
 /**
  * @author  Oleg Shvets

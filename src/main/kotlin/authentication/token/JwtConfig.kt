@@ -1,4 +1,4 @@
-package ru.shvets.todolist.authentication.token
+package authentication.token
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
@@ -8,7 +8,6 @@ import io.ktor.http.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.config.*
-import io.ktor.server.plugins.*
 import io.ktor.server.response.*
 import java.util.*
 

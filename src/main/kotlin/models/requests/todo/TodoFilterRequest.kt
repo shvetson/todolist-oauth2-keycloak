@@ -1,4 +1,4 @@
-package ru.shvets.todolist.models.requests.todo
+package models.requests.todo
 
 import kotlinx.serialization.Serializable
 

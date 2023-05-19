@@ -1,8 +1,8 @@
-package ru.shvets.todolist.models.requests.todo
+package models.requests.todo
 
 import kotlinx.serialization.Serializable
-import ru.shvets.todolist.models.ToDo
-import ru.shvets.todolist.models.ToDoId
+import models.ToDo
+import models.ToDoId
 
 /**
  * @author  Oleg Shvets

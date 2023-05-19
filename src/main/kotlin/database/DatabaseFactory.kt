@@ -1,4 +1,4 @@
-package ru.shvets.todolist.database
+package database
 
 import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
@@ -11,8 +11,8 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
-import ru.shvets.todolist.entities.TodosTable
-import ru.shvets.todolist.entities.UsersTable
+import entities.TodosTable
+import entities.UsersTable
 
 /**
  * @author  Oleg Shvets

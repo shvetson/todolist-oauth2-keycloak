@@ -1,4 +1,4 @@
-package ru.shvets.todolist.routes
+package routes
 
 import io.konform.validation.Invalid
 import io.ktor.http.*
@@ -6,16 +6,16 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.shvets.todolist.models.ToDo
-import ru.shvets.todolist.models.ToDoId
-import ru.shvets.todolist.repository.base.ITodoRepository
-import ru.shvets.todolist.models.requests.todo.TodoFilterRequest
-import ru.shvets.todolist.models.requests.todo.TodoIdRequest
-import ru.shvets.todolist.repository.todo.TodoRepository
-import ru.shvets.todolist.models.requests.todo.TodoRequest
-import ru.shvets.todolist.validate.resultErrorEmptyId
-import ru.shvets.todolist.validate.resultErrorSaving
-import ru.shvets.todolist.validate.resultErrorValidation
+import models.ToDo
+import models.ToDoId
+import models.requests.todo.TodoFilterRequest
+import models.requests.todo.TodoIdRequest
+import models.requests.todo.TodoRequest
+import repositories.base.ITodoRepository
+import repositories.todo.TodoRepository
+import validate.resultErrorEmptyId
+import validate.resultErrorSaving
+import validate.resultErrorValidation
 
 /**
  * @author  Oleg Shvets

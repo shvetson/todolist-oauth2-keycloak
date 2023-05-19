@@ -1,5 +1,3 @@
-package ru.shvets.todolist
-
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -10,11 +8,11 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.event.*
-import ru.shvets.todolist.database.DatabaseFactory
-import ru.shvets.todolist.plugins.configureMonitoring
-import ru.shvets.todolist.plugins.configureRouting
-import ru.shvets.todolist.plugins.configureSecurity
-import ru.shvets.todolist.plugins.configureSerialization
+import database.DatabaseFactory
+import plugins.configureMonitoring
+import plugins.configureRouting
+import plugins.configureSecurity
+import plugins.configureSerialization
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 

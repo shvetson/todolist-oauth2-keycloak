@@ -1,15 +1,15 @@
-package ru.shvets.todolist.repository.todo
+package repositories.todo
 
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.shvets.todolist.database.DatabaseFactory.dbQuery
-import ru.shvets.todolist.entities.TodosTable
-import ru.shvets.todolist.entities.TodosTable.fromRow
-import ru.shvets.todolist.models.requests.todo.TodoFilterRequest
-import ru.shvets.todolist.models.requests.todo.TodoIdRequest
-import ru.shvets.todolist.models.requests.todo.TodoRequest
-import ru.shvets.todolist.repository.base.ITodoRepository
+import database.DatabaseFactory.dbQuery
+import entities.TodosTable
+import entities.TodosTable.fromRow
+import models.requests.todo.TodoFilterRequest
+import models.requests.todo.TodoIdRequest
+import models.requests.todo.TodoRequest
+import repositories.base.ITodoRepository
 
 /**
  * @author  Oleg Shvets
@@ -39,14 +39,14 @@ class TodoRepository() : ITodoRepository {
         val todo = runBlocking { readTodo(TodoIdRequest(id)).data } ?: return@dbQuery TodoResponse.errorNotFound
         val toDo = request.toDo
         val res: Boolean = TodosTable.update({ TodosTable.id eq (id.asString().toLong()) }) { toRow(it, toDo) } > 0
-        TodoResponse.result(toDo, res)
+        TodoResponse.success(toDo, res)
     }
 
     override suspend fun deleteTodo(request: TodoIdRequest): TodoResponse = dbQuery {
         val id = request.id
         val todo = runBlocking { readTodo(request).data } ?: return@dbQuery TodoResponse.errorNotFound
         val res: Boolean = TodosTable.deleteWhere { TodosTable.id eq (id.asString().toLong()) } > 0
-        TodoResponse.result(todo, res)
+        TodoResponse.success(todo, res)
     }
 
     override suspend fun searchTodos(request: TodoFilterRequest): TodosResponse = dbQuery {

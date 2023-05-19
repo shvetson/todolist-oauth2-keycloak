@@ -1,9 +1,9 @@
-package ru.shvets.todolist.plugins
+package plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import ru.shvets.todolist.authentication.token.JwtConfig
+import authentication.token.JwtConfig
 
 /**
  * @author  Oleg Shvets

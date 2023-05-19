@@ -1,6 +1,6 @@
-package ru.shvets.todolist.repository
+package repositories
 
-import ru.shvets.todolist.models.User
+import models.User
 
 /**
  * @author  Oleg Shvets

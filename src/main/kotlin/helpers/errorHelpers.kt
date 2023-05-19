@@ -1,6 +1,6 @@
-package ru.shvets.todolist.helper
+package helpers
 
-import ru.shvets.todolist.repository.base.BaseError
+import repositories.base.BaseError
 
 //val errorEmptyId = BaseError(
 //    code = "id-empty",

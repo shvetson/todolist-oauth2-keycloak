@@ -1,4 +1,4 @@
-package ru.shvets.todolist.models
+package models
 
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline

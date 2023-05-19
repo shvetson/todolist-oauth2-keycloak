@@ -1,9 +1,9 @@
-package ru.shvets.todolist.repository
+package repositories
 
 import org.jetbrains.exposed.sql.*
-import ru.shvets.todolist.database.DatabaseFactory.dbQuery
-import ru.shvets.todolist.entities.UsersTable
-import ru.shvets.todolist.models.User
+import database.DatabaseFactory.dbQuery
+import entities.UsersTable
+import models.User
 
 /**
  * @author  Oleg Shvets

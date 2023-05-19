@@ -1,9 +1,9 @@
-package ru.shvets.todolist.entities
+package entities
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
-import ru.shvets.todolist.models.ToDo
-import ru.shvets.todolist.models.ToDoId
+import models.ToDo
+import models.ToDoId
 
 /**
  * @author  Oleg Shvets
@@ -29,14 +29,14 @@ object TodosTable : Table(name = "todos") {
     }
 
     fun toRow(it: UpdateBuilder<*>, toDo: ToDo) {
-        it[TodosTable.title] = toDo.title
-        it[TodosTable.isDone] = toDo.isDone
+        it[title] = toDo.title
+        it[isDone] = toDo.isDone
     }
 
     fun fromRow(row: ResultRow): ToDo =
         ToDo(
-            id = ToDoId(row[TodosTable.id].toString()),
-            title = row[TodosTable.title],
-            isDone = row[TodosTable.isDone]
+            id = ToDoId(row[id].toString()),
+            title = row[title],
+            isDone = row[isDone]
         )
 }

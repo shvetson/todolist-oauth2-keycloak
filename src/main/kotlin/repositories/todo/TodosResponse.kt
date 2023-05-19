@@ -1,9 +1,9 @@
-package ru.shvets.todolist.repository.todo
+package repositories.todo
 
 import kotlinx.serialization.Serializable
-import ru.shvets.todolist.models.ToDo
-import ru.shvets.todolist.repository.base.BaseError
-import ru.shvets.todolist.repository.base.IBaseResponse
+import models.ToDo
+import repositories.base.BaseError
+import repositories.base.IBaseResponse
 
 /**
  * @author  Oleg Shvets
