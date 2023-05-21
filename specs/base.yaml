@@ -1,59 +1,23 @@
-openapi: 3.0.4
+openapi: 3.0.3
 info:
-  title: CrowdProj
-  description: An experimental project with high modularity
+  title: Base
+  description: Base model
   contact:
-    name: Sergey Okatov
-    email: sokatov@gmail.com
+    name: Oleg Shvets
+    email: shvetson@gmail.com
   license:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
-  version: 0.0.0
+  version: 1.0.0
 
 paths: {}
 
 components:
   schemas:
 
-    RequestId:
-      type: string
-      description: A unique request identificator for for the request trace purposes
-
     UserId:
       type: string
       description: A user unique identificator
-
-    CpRequestDebug:
-      type: object
-      description: Debug property for request description
-      properties:
-        debug:
-          $ref: '#/components/schemas/CpBaseDebug'
-
-    CpBaseDebug:
-      type: object
-      description: A basic structure describing debug settings
-      properties:
-        mode:
-          $ref: '#/components/schemas/CpRequestDebugMode'
-        stub:
-          $ref: '#/components/schemas/CpRequestDebugStubs'
-
-    CpRequestDebugMode:
-      type: string
-      description: 'Debug modes: prod - production functioning, test - a test (in-memory) database usage, stub - fixed stubs response'
-      enum:
-        - prod
-        - test
-        - stub
-
-    CpRequestDebugStubs:
-      type: string
-      description: List here all stubs available to clients
-      enum:
-        - success
-        - notFound
-        - badId
 
     Error:
       type: object
@@ -90,8 +54,6 @@ components:
           type: string
           description: Discriminator for all requests
           example: create
-        requestId:
-          $ref: '#/components/schemas/RequestId'
       discriminator:
         propertyName: requestType
 
@@ -103,8 +65,6 @@ components:
           type: string
           description: Discriminator for all responses
           example: create
-        requestId:
-          $ref: '#/components/schemas/RequestId'
         result:
           $ref: '#/components/schemas/ResponseResult'
         errors:

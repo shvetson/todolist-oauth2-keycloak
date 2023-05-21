@@ -1,0 +1,411 @@
+openapi: 3.0.3
+info:
+  title: Todos list
+  description: |
+    Введение списка дел (работа, семья, личное и тд) и контроль исполнения.
+    На будущее, связка с чат-ботом, в качестве информирования (напоминания).
+  contact:
+    name: Oleg Shvets
+    email: shvetson@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+    description: App Server
+tags:
+  - name: todos
+    description: Todos lists
+paths:
+  /todos/create:
+    post:
+      tags:
+        - todos
+      summary: Create todo
+      operationId: todoCreate
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoCreateResponse'
+  /todos/read:
+    post:
+      tags:
+        - todos
+      summary: Read todo
+      operationId: todoRead
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReadResponse'
+  /todos/update:
+    post:
+      tags:
+        - todos
+      summary: Update todo
+      operationId: todoUpdate
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoUpdateResponse'
+  /todos/delete:
+    post:
+      tags:
+        - todos
+      summary: Delete todo
+      operationId: todoDelete
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoDeleteResponse'
+  /todos/search:
+    post:
+      tags:
+        - todos
+      summary: Search todos
+      parameters:
+        - $ref: '#/components/parameters/offsetParam'
+        - $ref: '#/components/parameters/limitParam'
+      operationId: todoSearch
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoSearchResponse'
+
+components:
+  #-------------------------------
+  # Reusable schemas (data models)
+  #-------------------------------
+  schemas:
+    IRequest: # Can be referenced as '#/components/schemas/IRequest'
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дискриминатор для вычисления типа запроса
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/TodoCreateRequest'
+          read: '#/components/schemas/TodoReadRequest'
+          update: '#/components/schemas/TodoUpdateRequest'
+          delete: '#/components/schemas/TodoDeleteRequest'
+          search: '#/components/schemas/TodoSearchRequest'
+
+    Error: # Can be referenced as '#/components/schemas/Error'
+      $ref: './base.yaml#/components/schemas/Error'
+
+    ResponseResult: # Can be referenced as '#/components/schemas/ResponseResult'
+      $ref: './base.yaml#/components/schemas/ResponseResult'
+
+    IResponse: # Can be referenced as '#/components/schemas/IResponse'
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дискриминатор для вычисления типа запроса
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/TodoCreateResponse'
+          read:   '#/components/schemas/TodoReadResponse'
+          update: '#/components/schemas/TodoUpdateResponse'
+          delete: '#/components/schemas/TodoDeleteResponse'
+          search: '#/components/schemas/TodoSearchResponse'
+          init: '#/components/schemas/TodoInitResponse'
+
+    TodoId: # Can be referenced as '#/components/schemas/TodoId'
+      type: string
+      description: Идентификатор todo
+      example: "1"
+
+    UserId: # Can be referenced as '#/components/schemas/UserId'
+      $ref: './base.yaml#/components/schemas/UserId'
+
+    BaseTodo: # Can be referenced as '#/components/schemas/BaseTodo'
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        title:
+          type: string
+          description: Тема события / действия и тд
+        content:
+          type: string
+          description: Более полное (развернутое) описание события / действия
+        deadline:
+          type: string
+          format: date-time
+          description: Время (срок) исполнения / действия
+        isDone:
+          type: boolean
+          description: Статус - сделано / не сделано (true / false)
+        todoType:
+          $ref: '#/components/schemas/Type'
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+
+    BaseTodoResponse: # Can be referenced as '#/components/schemas/BaseTodo'
+      type: object
+      description: Объект описывает свойства для ответа (response)
+      properties:
+        title:
+          type: string
+          description: Тема события / действия и тд
+        content:
+          type: string
+          description: Более полное (развернутое) описание события / действия
+        deadline:
+          type: string
+          format: date-time
+          description: Время (срок) исполнения / действия
+        isDone:
+          type: boolean
+          description: Статус - сделано / не сделано (true / false)
+        createdAt:
+          type: string
+          format: date-time
+          description: Время создания записи
+        updatedAt:
+          type: string
+          format: date-time
+          description: Время обновления записи
+        todoType:
+          $ref: '#/components/schemas/Type'
+        ownerId:
+          $ref: '#/components/schemas/UserId'
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+
+    Type:
+      type: string
+      description: 'Вид действия / события'
+      enum:
+        - work
+        - family
+        - relatives
+        - personal
+        - business
+
+    Visibility:
+      type: string
+      description: 'Тип видимости todo. Возможные значения: видит только владелец, только зарегистрированный в системе пользователь, доступно всем'
+      enum:
+        - ownerOnly
+        - registeredOnly
+        - public
+
+    TodoInitResponse: # Can be referenced as '#/components/schemas/TodoInitResponse'
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
+    TodoCreateObject: # Can be referenced as '#/components/schemas/TodoCreateObject'
+      allOf:
+        - $ref: '#/components/schemas/BaseTodo'
+
+    TodoCreateRequest: # Can be referenced as '#/components/schemas/TodoCreateRequest'
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            todo:
+              $ref: '#/components/schemas/TodoCreateObject'
+
+    TodoReadObject: # Can be referenced as '#/components/schemas/TodoReadObject'
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/TodoId'
+
+    TodoReadRequest: # Can be referenced as '#/components/schemas/TodoReadRequest'
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            todo:
+              $ref: '#/components/schemas/TodoReadObject'
+
+    TodoUpdateObject: # Can be referenced as '#/components/schemas/TodoUpdateObject'
+      allOf:
+        - $ref: '#/components/schemas/BaseTodo'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/TodoId'
+
+    TodoUpdateRequest: # Can be referenced as '#/components/schemas/TodoUpdateRequest'
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            todo:
+              $ref: '#/components/schemas/TodoUpdateObject'
+
+    TodoDeleteObject: # Can be referenced as '#/components/schemas/TodoDeleteObject'
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/TodoId'
+
+    TodoDeleteRequest: # Can be referenced as '#/components/schemas/TodoDeleteRequest'
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            todo:
+              $ref: '#/components/schemas/TodoDeleteObject'
+
+    TodoSearchFilter: # Can be referenced as '#/components/schemas/TodoSearchFilter'
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в todos
+
+    TodoSearchRequest: # Can be referenced as '#/components/schemas/TodoSearchRequest'
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            todoFilter:
+              $ref: '#/components/schemas/TodoSearchFilter'
+
+    TodoResponseObject: # Can be referenced as '#/components/schemas/TodoResponseObject'
+      allOf:
+        - $ref: '#/components/schemas/BaseTodoResponse'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/TodoId'
+
+    TodoResponseSingle: # Can be referenced as '#/components/schemas/TodoResponseSingle'
+      allOf:
+        - type: object
+          description: Ответ с одним объектом todo
+          properties:
+            todo:
+              $ref: '#/components/schemas/TodoResponseObject'
+
+    TodoResponseMulti: # Can be referenced as '#/components/schemas/TodoResponseMulti'
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            todos:
+              type: array
+              items:
+                $ref: '#/components/schemas/TodoResponseObject'
+
+    TodoCreateResponse: # Can be referenced as '#/components/schemas/TodoCreateResponse'
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TodoResponseSingle'
+
+    TodoReadResponse: # Can be referenced as '#/components/schemas/TodoReadResponse'
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TodoResponseSingle'
+
+    TodoUpdateResponse: # Can be referenced as '#/components/schemas/TodoUpdateResponse'
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TodoResponseSingle'
+
+    TodoDeleteResponse: # Can be referenced as '#/components/schemas/TodoDeleteResponse'
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TodoResponseSingle'
+
+    TodoSearchResponse: # Can be referenced as '#/components/schemas/TodoSearchResponse'
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TodoResponseMulti'
+
+  #-------------------------------
+  # Reusable operation parameters
+  #-------------------------------
+  parameters:
+    offsetParam: # Can be referenced via '#/components/parameters/offsetParam'
+      name: offset
+      in: query
+      description: Number of items to skip before returning the results.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 0
+    limitParam: # Can be referenced as '#/components/parameters/limitParam'
+      name: limit
+      in: query
+      description: Maximum number of items to return.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 20
