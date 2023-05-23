@@ -2,6 +2,9 @@ package ru.shvets.todolist.biz
 
 import ru.shvets.todolist.biz.general.*
 import ru.shvets.todolist.biz.repo.*
+import ru.shvets.todolist.biz.validation.validateIdNotEmpty
+import ru.shvets.todolist.biz.validation.validateIdProperFormat
+import ru.shvets.todolist.biz.validation.validateTodo
 import ru.shvets.todolist.common.TodoContext
 import ru.shvets.todolist.common.TodoCorSettings
 import ru.shvets.todolist.common.models.todo.TodoCommand
@@ -23,12 +26,7 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                     worker("Копируем поля в todoValidating") { todoValidating = todoRequest }
                     worker("Очистка id") { todoValidating.id = TodoId.NONE }
                     worker("Очистка заголовка") { todoValidating.title = todoValidating.title.trim() }
-
-//                    validateTitleNotEmpty("Проверка, что заголовок не пуст")
-//                    validateTitleHasContent("Проверка символов")
-//                    validateDescriptionNotEmpty("Проверка, что описание не пусто")
-//                    validateDescriptionHasContent("Проверка символов")
-
+                    validateTodo("Проверка todoValidating (не пустой и формат ввода)")
                     finishAdValidation("Завершение проверок")
                 }
                 chain {
@@ -42,10 +40,8 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                 validation {
                     worker("Копируем поля в todoValidating") { todoValidating = todoRequest }
                     worker("Очистка id") { todoValidating.id = TodoId(todoValidating.id.asString().trim()) }
-
-//                    validateIdNotEmpty("Проверка на непустой id")
-//                    validateIdProperFormat("Проверка формата id")
-
+                    validateIdNotEmpty("Проверка на непустой id")
+                    validateIdProperFormat("Проверка формата id")
                     finishAdValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
@@ -60,16 +56,9 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                     worker("Копируем поля в todoValidating") { todoValidating = todoRequest }
                     worker("Очистка id") { todoValidating.id = TodoId(todoValidating.id.asString().trim()) }
                     worker("Очистка заголовка") { todoValidating.title = todoValidating.title.trim() }
-
-//                    validateIdNotEmpty("Проверка на непустой id")
-//                    validateIdProperFormat("Проверка формата id")
-//                    validateLockNotEmpty("Проверка на непустой lock")
-//                    validateLockProperFormat("Проверка формата lock")
-//                    validateTitleNotEmpty("Проверка на непустой заголовок")
-//                    validateTitleHasContent("Проверка на наличие содержания в заголовке")
-//                    validateDescriptionNotEmpty("Проверка на непустое описание")
-//                    validateDescriptionHasContent("Проверка на наличие содержания в описании")
-
+                    validateTodo("Проверка todoValidating (не пустой и формат ввода)")
+                    validateIdNotEmpty("Проверка на непустой id")
+                    validateIdProperFormat("Проверка формата id")
                     finishAdValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
@@ -84,11 +73,8 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                 validation {
                     worker("Копируем поля в todoValidating") { todoValidating = todoRequest }
                     worker("Очистка id") { todoValidating.id = TodoId(todoValidating.id.asString().trim()) }
-
-//                    validateIdNotEmpty("Проверка на непустой id")
-//                    validateIdProperFormat("Проверка формата id")
-//                    validateLockNotEmpty("Проверка на непустой lock")
-//                    validateLockProperFormat("Проверка формата lock")
+                    validateIdNotEmpty("Проверка на непустой id")
+                    validateIdProperFormat("Проверка формата id")
                     finishAdValidation("Успешное завершение процедуры валидации")
                 }
                 chain {

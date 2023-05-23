@@ -15,7 +15,7 @@ fun TodoContext.toTransportTodo(): IResponse = when (val cmd = command) {
 }
 
 fun TodoContext.toTransportCreate() = TodoCreateResponse(
-    responseType = "CREATE",
+    responseType = "create",
     result = if (state == TodoState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     todo = todoResponse.toTransportTodo()

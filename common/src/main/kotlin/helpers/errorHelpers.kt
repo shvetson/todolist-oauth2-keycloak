@@ -1,6 +1,8 @@
 package ru.shvets.todolist.common.helpers
 
+import io.konform.validation.ValidationResult
 import ru.shvets.todolist.common.TodoContext
+import ru.shvets.todolist.common.models.todo.Todo
 import ru.shvets.todolist.common.models.todo.TodoError
 import ru.shvets.todolist.common.models.todo.TodoState
 
@@ -22,7 +24,29 @@ fun TodoContext.fail(error: TodoError) {
     state = TodoState.FAILING
 }
 
-fun errorValidation(
+fun TodoContext.fails(listErrors: List<TodoError>) {
+    errors.addAll(listErrors)
+    state = TodoState.FAILING
+}
+
+fun errorValidation(validation: ValidationResult<Todo>): List<TodoError> {
+    val listErrors = mutableListOf<TodoError>()
+
+    listOf(validation).flatMap { it.errors }.forEach {
+        val field = if (it.dataPath.startsWith(".")) it.dataPath.drop(1) else it.dataPath
+        val message = it.message
+        val error = TodoError(
+            code = "validation-$field",
+            group = "validation",
+            field = field,
+            description = message
+        )
+        listErrors.add(error)
+    }
+    return listErrors
+}
+
+fun resultErrorValidation(
     field: String,
     /**
      * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
