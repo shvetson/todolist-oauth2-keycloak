@@ -27,7 +27,7 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                     worker("Очистка id") { todoValidating.id = TodoId.NONE }
                     worker("Очистка заголовка") { todoValidating.title = todoValidating.title.trim() }
                     validateTodo("Проверка todoValidating (не пустой и формат ввода)")
-                    finishAdValidation("Завершение проверок")
+                    finishTodoValidation("Завершение проверок")
                 }
                 chain {
                     title = "Логика сохранения"
@@ -42,7 +42,7 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                     worker("Очистка id") { todoValidating.id = TodoId(todoValidating.id.asString().trim()) }
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
-                    finishAdValidation("Успешное завершение процедуры валидации")
+                    finishTodoValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
                     title = "Логика чтения"
@@ -59,7 +59,7 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                     validateTodo("Проверка todoValidating (не пустой и формат ввода)")
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
-                    finishAdValidation("Успешное завершение процедуры валидации")
+                    finishTodoValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
                     title = "Логика сохранения"
@@ -75,7 +75,7 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                     worker("Очистка id") { todoValidating.id = TodoId(todoValidating.id.asString().trim()) }
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
-                    finishAdValidation("Успешное завершение процедуры валидации")
+                    finishTodoValidation("Успешное завершение процедуры валидации")
                 }
                 chain {
                     title = "Логика удаления"
@@ -88,7 +88,7 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
             operation("Поиск todos", TodoCommand.SEARCH) {
                 validation {
                     worker("Копируем поля в todoFilterValidating") { todoFilterValidating = todoFilterRequest }
-                    finishAdFilterValidation("Успешное завершение процедуры валидации")
+                    finishTodoFilterValidation("Успешное завершение процедуры валидации")
                 }
                 repoSearch("Поиск todos в БД по фильтру")
                 prepareResult("Подготовка ответа")

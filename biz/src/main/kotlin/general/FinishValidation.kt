@@ -6,7 +6,7 @@ import ru.shvets.todolist.lib.cor.ICorChainDsl
 import ru.shvets.todolist.lib.cor.worker
 
 
-fun ICorChainDsl<TodoContext>.finishAdValidation(title: String) = worker {
+fun ICorChainDsl<TodoContext>.finishTodoValidation(title: String) = worker {
     this.title = title
     on { state == TodoState.RUNNING }
     handle {
@@ -14,7 +14,7 @@ fun ICorChainDsl<TodoContext>.finishAdValidation(title: String) = worker {
     }
 }
 
-fun ICorChainDsl<TodoContext>.finishAdFilterValidation(title: String) = worker {
+fun ICorChainDsl<TodoContext>.finishTodoFilterValidation(title: String) = worker {
     this.title = title
     on { state == TodoState.RUNNING }
     handle {
