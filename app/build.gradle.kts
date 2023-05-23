@@ -14,6 +14,9 @@ val konformVersion: String by project
 val kotestVersion: String by project
 val jUnitJupiterVersion: String by project
 
+val serializationVersion: String by project
+
+
 //fun ktorServer(module: String, version: String? = this@Build_gradle.ktorVersion): Any =
 //    "io.ktor:ktor-server-$module:$version"
 //fun ktorClient(module: String, version: String? = this@Build_gradle.ktorVersion): Any =
@@ -61,7 +64,17 @@ dependencies {
 
     implementation("io.konform:konform-jvm:$konformVersion")
 
+//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
+//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
+
+    implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
+
+
     implementation(project(":common"))
+    implementation(project(":api"))
+    implementation(project(":mapper"))
+    implementation(project(":biz"))
 
     testImplementation(kotlin("test-junit5"))
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")

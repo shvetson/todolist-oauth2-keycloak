@@ -1,5 +1,8 @@
 package ru.shvets.todolist.app
 
+import ru.shvets.todolist.biz.TodoProcessor
+import ru.shvets.todolist.common.TodoCorSettings
+
 data class TodoAppSettings(
     val appUrls: List<String> = emptyList(),
     val corSettings: TodoCorSettings,

@@ -14,6 +14,7 @@ data class Todo(
     var title: String = "",
     var isDone: Boolean = false,
 ) {
+
     fun isEmpty() = this == NONE
 
     companion object {

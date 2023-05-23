@@ -1,7 +1,7 @@
 package ru.shvets.todolist.mapper
 
 import ru.shvets.api.v1.models.*
-import ru.shvets.todolist.common.models.TodoContext
+import ru.shvets.todolist.common.TodoContext
 import ru.shvets.todolist.common.models.todo.Todo
 import ru.shvets.todolist.common.models.todo.TodoCommand
 import ru.shvets.todolist.common.models.todo.TodoFilter
@@ -72,5 +72,6 @@ private fun TodoDeleteObject?.toInternal(): Todo {
 }
 
 private fun TodoSearchFilter?.toInternal(): TodoFilter = TodoFilter(
-    searchString = this?.searchString ?: ""
+    searchString = this?.searchString ?: "",
+    isDone = this?.isDone,
 )

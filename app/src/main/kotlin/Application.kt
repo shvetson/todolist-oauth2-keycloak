@@ -11,19 +11,15 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.event.*
 import ru.shvets.todolist.app.database.DatabaseFactory
-import ru.shvets.todolist.app.plugins.configureMonitoring
-import ru.shvets.todolist.app.plugins.configureRouting
-import ru.shvets.todolist.app.plugins.configureSecurity
-import ru.shvets.todolist.app.plugins.configureSerialization
+import ru.shvets.todolist.app.plugins.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 @Suppress("unused")
-fun Application.module() {
-
-    configureMonitoring()
+fun Application.module(appSettings: TodoAppSettings = initAppSettings()) {
+    configureMonitoring(appSettings)
     configureSerialization()
     configureSecurity()
     DatabaseFactory.init()
-    configureRouting()
+    configureRouting(appSettings)
 }

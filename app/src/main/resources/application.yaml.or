@@ -1,0 +1,33 @@
+ktor:
+  application:
+    modules:
+      - ru.shvets.todolist.app.ApplicationKt.module
+  deployment:
+    port: 8080
+  urls:
+    - "http://127.0.0.1:8080/"
+    - "http://0.0.0.0:8080/"
+    - "http://192.168.0.182:8080/"
+  watch:
+    - classes
+    - resources
+db:
+  repository:
+    cassandra:
+      hosts: localhost
+      keyspace: test_keyspace
+      pass: cassandra
+      port: 9042
+      user: cassandra
+    psql:
+      password: postgres
+      schema: todo
+      driver: "org.postgresql.Driver"
+      url: "jdbc:postgresql://localhost:5432/todo"
+      user: postgres
+    gremlin:
+      host: "$DB_GREMLIN_HOST:localhost"
+      user: "$DB_GREMLIN_HOST:root"
+      password: "$DB_GREMLIN_HOST:root_root"
+      port: "$DB_GREMLIN_PORT:8182"
+      enableSsl: false

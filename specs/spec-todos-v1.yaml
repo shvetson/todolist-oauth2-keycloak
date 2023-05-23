@@ -265,7 +265,10 @@ components:
       properties:
         searchString:
           type: string
-          description: Поисковая строка, которая будет искаться в todos
+          description: Поисковая строка, которая будет искаться в todos по title
+        isDone:
+          type: boolean
+          description: Поиск по статусу todo - сделано / не сделано (true / false)
 
     TodoSearchRequest: # Can be referenced as '#/components/schemas/TodoSearchRequest'
       allOf:
