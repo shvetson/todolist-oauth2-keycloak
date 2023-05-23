@@ -2,8 +2,9 @@ package ru.shvets.todolist.app.routes
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
+import ru.shvets.api.v1.models.*
 import ru.shvets.todolist.app.TodoAppSettings
-import ru.shvets.todolist.app.controllers.*
+import ru.shvets.todolist.common.models.todo.TodoCommand
 
 /**
  * @author  Oleg Shvets
@@ -14,19 +15,19 @@ import ru.shvets.todolist.app.controllers.*
 fun Route.todosTestRouting(appSettings: TodoAppSettings) {
     route("todos") {
         post("create") {
-            call.createTodo(appSettings)
+            call.process<TodoCreateRequest, TodoCreateResponse>(appSettings, "todo-create", TodoCommand.CREATE)
         }
         post("read") {
-            call.readTodo(appSettings)
+            call.process<TodoReadRequest, TodoReadResponse>(appSettings, "todo-read", TodoCommand.READ)
         }
         post("update") {
-            call.updateTodo(appSettings)
+            call.process<TodoUpdateRequest, TodoUpdateResponse>(appSettings, "todo-update", TodoCommand.UPDATE)
         }
         post("delete") {
-            call.deleteTodo(appSettings)
+            call.process<TodoDeleteRequest, TodoDeleteResponse>(appSettings, "todo-delete", TodoCommand.DELETE)
         }
         post("search") {
-            call.searchTodo(appSettings)
+            call.process<TodoSearchRequest, TodoSearchResponse>(appSettings, "todo-search", TodoCommand.SEARCH)
         }
     }
 }

@@ -1,10 +1,9 @@
-package ru.shvets.todolist.app.controllers
+package ru.shvets.todolist.app.routes
 
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import kotlinx.datetime.Clock
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.shvets.api.v1.models.IRequest
 import ru.shvets.api.v1.models.IResponse

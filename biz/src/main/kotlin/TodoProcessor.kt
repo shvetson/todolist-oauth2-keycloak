@@ -50,7 +50,7 @@ class TodoProcessor(private val settings: TodoCorSettings = TodoCorSettings()) {
                 }
                 chain {
                     title = "Логика чтения"
-                    repoRead("Чтение объявления из БД")
+                    repoRead("Чтение todo из БД")
                     repoPrepareToResponse("Подготовка ответа для Read")
                 }
                 prepareResult("Подготовка ответа")
