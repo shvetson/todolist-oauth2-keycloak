@@ -21,7 +21,7 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "create",
   "todo": {
-    "title": "Test #2",
+    "title": "Test #3",
     "isDone": false
   }
 }
@@ -34,7 +34,7 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "read",
   "todo": {
-    "id": "faecee50-3abf-48f6-911e-91133ddcc973"
+    "id": "64c3c89f-a3f7-4f72-9953-c8a5209c8274"
   }
 }
 
@@ -46,8 +46,8 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "update",
   "todo": {
-    "id": "faecee50-3abf-48f6-911e-91133ddcc973",
-    "title": "Test #1",
+    "id": "64c3c89f-a3f7-4f72-9953-c8a5209c8274",
+    "title": "Test #3 updated",
     "isDone": false
   }
 }

@@ -2,21 +2,11 @@ val kotlinVersion: String by project
 val ktorVersion: String by project
 val ktorPluginVersion: String by project
 val logbackVersion: String by project
-
-val exposedVersion: String by project
-val hikariVersion: String by project
-val postgresVersion: String by project
-
 val commonsCodecVersion: String by project
-
 val konformVersion: String by project
-
 val kotestVersion: String by project
 val jUnitJupiterVersion: String by project
-
 val serializationVersion: String by project
-
-val kmpUUIDVersion: String by project
 
 //fun ktorServer(module: String, version: String? = this@Build_gradle.ktorVersion): Any =
 //    "io.ktor:ktor-server-$module:$version"
@@ -52,13 +42,6 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-
-    implementation("org.postgresql:postgresql:$postgresVersion")
-    implementation("com.zaxxer:HikariCP:$hikariVersion")
-
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
     implementation("commons-codec:commons-codec:$commonsCodecVersion")
@@ -75,8 +58,6 @@ dependencies {
 
     implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
     implementation("io.ktor:ktor-server-caching-headers:$ktorVersion")
-
-    implementation("com.benasher44:uuid:$kmpUUIDVersion")
 
     implementation(project(":common"))
     implementation(project(":api"))

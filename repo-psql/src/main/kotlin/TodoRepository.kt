@@ -1,4 +1,4 @@
-package ru.shvets.todolist.app.repo
+package ru.shvets.todolist.repo.psql
 
 import com.benasher44.uuid.uuid4
 import com.zaxxer.hikari.HikariConfig
@@ -10,8 +10,6 @@ import kotlinx.datetime.Clock
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import ru.shvets.todolist.app.config.PostgresConfig
-import ru.shvets.todolist.repo.psql.TodosTable
 import ru.shvets.todolist.repo.psql.TodosTable.fromRow
 import ru.shvets.todolist.common.repo.todo.*
 
@@ -22,7 +20,7 @@ import ru.shvets.todolist.common.repo.todo.*
  */
 
 class TodoRepository(
-    properties: PostgresConfig,
+    properties: SqlProperties,
     private val randomUuid: () -> String = { uuid4().toString() },
 ) : ITodoRepository {
 
