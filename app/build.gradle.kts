@@ -84,7 +84,6 @@ dependencies {
     implementation(project(":biz"))
     implementation(project(":repo-psql"))
 
-
     testImplementation(kotlin("test-junit5"))
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitJupiterVersion")

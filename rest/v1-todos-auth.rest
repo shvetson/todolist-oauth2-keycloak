@@ -21,7 +21,7 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "create",
   "todo": {
-    "title": "Test create task or reminder",
+    "title": "Test #2",
     "isDone": false
   }
 }
@@ -34,7 +34,7 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "read",
   "todo": {
-    "id": "6"
+    "id": "faecee50-3abf-48f6-911e-91133ddcc973"
   }
 }
 
@@ -46,9 +46,9 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "update",
   "todo": {
-    "id": "42",
-    "title": "Test update feature",
-    "isDone": true
+    "id": "faecee50-3abf-48f6-911e-91133ddcc973",
+    "title": "Test #1",
+    "isDone": false
   }
 }
 

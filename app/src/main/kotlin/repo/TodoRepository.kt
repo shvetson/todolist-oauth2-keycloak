@@ -1,16 +1,18 @@
 package ru.shvets.todolist.app.repo
 
+import com.benasher44.uuid.uuid4
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import ru.shvets.todolist.app.config.PostgresConfig
-import ru.shvets.todolist.app.entity.TodosTable
-import ru.shvets.todolist.app.entity.TodosTable.fromRow
+import ru.shvets.todolist.repo.psql.TodosTable
+import ru.shvets.todolist.repo.psql.TodosTable.fromRow
 import ru.shvets.todolist.common.repo.todo.*
 
 /**
@@ -21,7 +23,7 @@ import ru.shvets.todolist.common.repo.todo.*
 
 class TodoRepository(
     properties: PostgresConfig,
-//    private val randomUuid: () -> String = { uuid4().toString() },
+    private val randomUuid: () -> String = { uuid4().toString() },
 ) : ITodoRepository {
 
     init {
@@ -54,14 +56,14 @@ class TodoRepository(
 
     override suspend fun createTodo(request: DbTodoRequest): DbTodoResponse = dbQuery {
         val toDo = request.toDo
-        val res = TodosTable.insert { toRow(it, toDo) }
+        val res = TodosTable.insert { toRow(it, toDo, randomUuid) }
             .resultedValues?.singleOrNull()?.let(::fromRow) ?: return@dbQuery DbTodoResponse.errorSave
         DbTodoResponse.success(res)
     }
 
     override suspend fun readTodo(request: DbTodoIdRequest): DbTodoResponse = dbQuery {
         val id = request.id
-        val res = TodosTable.select { TodosTable.id eq (id.asString().toLong()) }
+        val res = TodosTable.select { TodosTable.id eq id.asString() }
             .map(::fromRow)
             .singleOrNull() ?: return@dbQuery DbTodoResponse.errorNotFound
         DbTodoResponse.success(res)
@@ -70,16 +72,17 @@ class TodoRepository(
     override suspend fun updateTodo(request: DbTodoRequest): DbTodoResponse = dbQuery {
         val id = request.toDo.id
 //        if (id == ToDoId.NONE) return@dbQuery TodoResponse.errorEmptyId
-        val todo = runBlocking { readTodo(DbTodoIdRequest(id)).data } ?: return@dbQuery DbTodoResponse.errorNotFound
-        val toDo = request.toDo
-        val res: Boolean = TodosTable.update({ TodosTable.id eq (id.asString().toLong()) }) { toRow(it, toDo) } > 0
-        DbTodoResponse.success(toDo, res)
+        runBlocking { readTodo(DbTodoIdRequest(id)).data } ?: return@dbQuery DbTodoResponse.errorNotFound
+        val todo = request.toDo
+        todo.apply { this.updated = Clock.System.now() }
+        val res: Boolean = TodosTable.update({ TodosTable.id eq id.asString() }) { toRow(it, todo, randomUuid) } > 0
+        DbTodoResponse.success(todo, res)
     }
 
     override suspend fun deleteTodo(request: DbTodoIdRequest): DbTodoResponse = dbQuery {
         val id = request.id
         val todo = runBlocking { readTodo(request).data } ?: return@dbQuery DbTodoResponse.errorNotFound
-        val res: Boolean = TodosTable.deleteWhere { TodosTable.id eq (id.asString().toLong()) } > 0
+        val res: Boolean = TodosTable.deleteWhere { TodosTable.id eq id.asString() } > 0
         DbTodoResponse.success(todo, res)
     }
 
