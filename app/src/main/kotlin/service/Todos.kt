@@ -1,11 +1,11 @@
 package ru.shvets.todolist.app.service
 
-import ru.shvets.todolist.app.entities.TodosTable
-import ru.shvets.todolist.app.entities.TodosTable.all
-import ru.shvets.todolist.app.entities.TodosTable.findById
-import ru.shvets.todolist.app.entities.TodosTable.insert
-import ru.shvets.todolist.common.models.todo.Todo
-import ru.shvets.todolist.common.models.todo.TodoId
+import ru.shvets.todolist.app.entity.TodosTable
+import ru.shvets.todolist.app.entity.TodosTable.all
+import ru.shvets.todolist.app.entity.TodosTable.findById
+import ru.shvets.todolist.app.entity.TodosTable.insert
+import ru.shvets.todolist.common.model.todo.Todo
+import ru.shvets.todolist.common.model.todo.TodoId
 
 /**
  * @author  Oleg Shvets

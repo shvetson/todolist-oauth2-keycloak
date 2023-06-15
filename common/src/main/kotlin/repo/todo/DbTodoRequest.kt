@@ -5,7 +5,7 @@ import io.konform.validation.ValidationResult
 import io.konform.validation.jsonschema.maxLength
 import io.konform.validation.jsonschema.minLength
 import kotlinx.serialization.Serializable
-import ru.shvets.todolist.common.models.todo.Todo
+import ru.shvets.todolist.common.model.todo.Todo
 import ru.shvets.todolist.common.validate.Validatable
 
 /**

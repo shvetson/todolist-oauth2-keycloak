@@ -1,6 +1,6 @@
 package ru.shvets.todolist.common.repo.todo
 
-import ru.shvets.todolist.common.models.todo.TodoError
+import ru.shvets.todolist.common.model.todo.TodoError
 
 /**
  * @author  Oleg Shvets

@@ -1,8 +1,11 @@
 package ru.shvets.todolist.mapper
 
+import kotlinx.datetime.Instant
 import ru.shvets.api.v1.models.*
 import ru.shvets.todolist.common.TodoContext
-import ru.shvets.todolist.common.models.todo.*
+import ru.shvets.todolist.common.helper.NONE
+import ru.shvets.todolist.common.model.todo.*
+import ru.shvets.todolist.common.permission.TodoPermission
 import ru.shvets.todolist.mapper.exceptions.UnknownTodoCommand
 
 fun TodoContext.toTransportTodo(): IResponse = when (val cmd = command) {
@@ -58,7 +61,25 @@ private fun Todo.toTransportTodo(): TodoResponseObject = TodoResponseObject(
     id = id.takeIf { it != TodoId.NONE }?.asString(),
     title = title.takeIf { it.isNotBlank() },
     isDone = isDone,
+    created = created.takeIf { it != Instant.NONE }.toString(),
+    updated = updated.takeIf { it != Instant.NONE }.toString(),
+    ownerId = ownerId.takeIf { it != TodoUserId.NONE }?.asString(),
+    permissions = permissionsClient.toTransportTodo(),
 )
+
+private fun Set<TodoPermission>.toTransportTodo(): Set<TodoPermissions>? = this
+    .map { it.toTransportTodo() }
+    .toSet()
+    .takeIf { it.isNotEmpty() }
+
+private fun TodoPermission.toTransportTodo() = when (this) {
+    TodoPermission.READ -> TodoPermissions.READ
+    TodoPermission.UPDATE -> TodoPermissions.UPDATE
+    TodoPermission.MAKE_VISIBLE_OWNER -> TodoPermissions.MAKE_VISIBLE_OWN
+    TodoPermission.MAKE_VISIBLE_GROUP -> TodoPermissions.MAKE_VISIBLE_GROUP
+    TodoPermission.MAKE_VISIBLE_PUBLIC -> TodoPermissions.MAKE_VISIBLE_PUBLIC
+    TodoPermission.DELETE -> TodoPermissions.DELETE
+}
 
 private fun List<TodoError>.toTransportErrors(): List<Error>? = this
     .map { it.toTransportTodo() }

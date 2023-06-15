@@ -1,8 +1,8 @@
 package ru.shvets.todolist.biz.general
 
 import ru.shvets.todolist.common.TodoContext
-import ru.shvets.todolist.common.models.todo.TodoCommand
-import ru.shvets.todolist.common.models.todo.TodoState
+import ru.shvets.todolist.common.model.todo.TodoCommand
+import ru.shvets.todolist.common.model.todo.TodoState
 import ru.shvets.todolist.lib.cor.ICorChainDsl
 import ru.shvets.todolist.lib.cor.chain
 

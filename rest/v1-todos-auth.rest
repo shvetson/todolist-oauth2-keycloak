@@ -1,0 +1,78 @@
+### Token by password
+POST http://localhost:8081/auth/realms/my-auth-server/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=todos-service&grant_type=password&username=shvetson&password=12345&client_secret=mJ2sgfwdiSH75ROdZJMIHkzMsUxdEyQ3
+
+> {% client.global.set("auth_token", response.body.access_token);
+client.global.set("refresh_token", response.body.refresh_token); %}
+
+### Token by refresh token
+POST http://localhost:8081/auth/realms/my-auth-server/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=todos-service&grant_type=refresh_token&refresh_token={{refresh_token}}&client_secret=mJ2sgfwdiSH75ROdZJMIHkzMsUxdEyQ3
+
+### Create
+POST http://127.0.0.1:8080/api/v1/todos/create
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "requestType": "create",
+  "todo": {
+    "title": "Test create task or reminder",
+    "isDone": false
+  }
+}
+
+### Read
+POST http://127.0.0.1:8080/api/v1/todos/read
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "requestType": "read",
+  "todo": {
+    "id": "6"
+  }
+}
+
+### Update
+POST http://localhost:8080/api/v1/todos/update
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "requestType": "update",
+  "todo": {
+    "id": "42",
+    "title": "Test update feature",
+    "isDone": true
+  }
+}
+
+### Delete
+POST http://localhost:8080/api/v1/todos/delete
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "requestType": "delete",
+  "todo": {
+    "id": "42"
+  }
+}
+
+### Search
+POST http://localhost:8080/api/v1/todos/search
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "requestType": "search",
+  "todoFilter": {
+    "searchString": "",
+    "isDone": ""
+  }
+}

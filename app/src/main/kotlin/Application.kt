@@ -10,8 +10,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.event.*
-import ru.shvets.todolist.app.database.DatabaseFactory
-import ru.shvets.todolist.app.plugins.*
+import ru.shvets.todolist.app.plugin.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -19,7 +18,6 @@ fun main(args: Array<String>): Unit = EngineMain.main(args)
 fun Application.module(appSettings: TodoAppSettings = initAppSettings()) {
     configureMonitoring(appSettings)
     configureSerialization()
-    configureSecurity()
-    DatabaseFactory.init()
+    configureSecurity(appSettings)
     configureRouting(appSettings)
 }

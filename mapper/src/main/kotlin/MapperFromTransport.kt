@@ -2,10 +2,10 @@ package ru.shvets.todolist.mapper
 
 import ru.shvets.api.v1.models.*
 import ru.shvets.todolist.common.TodoContext
-import ru.shvets.todolist.common.models.todo.Todo
-import ru.shvets.todolist.common.models.todo.TodoCommand
-import ru.shvets.todolist.common.models.todo.TodoFilter
-import ru.shvets.todolist.common.models.todo.TodoId
+import ru.shvets.todolist.common.model.todo.Todo
+import ru.shvets.todolist.common.model.todo.TodoCommand
+import ru.shvets.todolist.common.model.todo.TodoFilter
+import ru.shvets.todolist.common.model.todo.TodoId
 import ru.shvets.todolist.mapper.exceptions.UnknownRequestClass
 
 fun TodoContext.fromTransport(request: IRequest) = when (request) {

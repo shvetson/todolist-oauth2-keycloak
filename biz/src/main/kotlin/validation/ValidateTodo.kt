@@ -2,8 +2,8 @@ package ru.shvets.todolist.biz.validation
 
 import io.konform.validation.Invalid
 import ru.shvets.todolist.common.TodoContext
-import ru.shvets.todolist.common.helpers.*
-import ru.shvets.todolist.common.models.todo.Todo
+import ru.shvets.todolist.common.helper.*
+import ru.shvets.todolist.common.model.todo.Todo
 import ru.shvets.todolist.lib.cor.ICorChainDsl
 import ru.shvets.todolist.lib.cor.worker
 

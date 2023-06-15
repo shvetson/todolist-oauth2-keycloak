@@ -2,10 +2,9 @@ package ru.shvets.todolist.app
 
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Test
-import ru.shvets.todolist.app.database.DatabaseFactory.db
-import ru.shvets.todolist.common.models.todo.Todo
-import ru.shvets.todolist.common.models.todo.TodoId
 import ru.shvets.todolist.app.service.Todos
+import ru.shvets.todolist.common.model.todo.Todo
+import ru.shvets.todolist.common.model.todo.TodoId
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
@@ -18,7 +17,7 @@ class ApplicationTest {
             title = "Test adding new item"
             isDone = false
         }
-        transaction(db) {
+        transaction {
             val added = todos.add(toDo)
             assertEquals(toDo.title, added?.title)
         }
@@ -26,7 +25,7 @@ class ApplicationTest {
 
     @Test
     fun `is empty db`() {
-        transaction(db) {
+        transaction {
             assertEquals(true, todos.all().isNotEmpty())
         }
     }
@@ -38,7 +37,7 @@ class ApplicationTest {
 
         val id2 = "0"
         val tdId2 = TodoId(id2)
-        transaction(db) {
+        transaction {
             val toDo = todos.findById(tdId)
             assertEquals(tdId, toDo?.id)
 

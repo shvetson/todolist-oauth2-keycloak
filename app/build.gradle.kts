@@ -16,6 +16,7 @@ val jUnitJupiterVersion: String by project
 
 val serializationVersion: String by project
 
+val kmpUUIDVersion: String by project
 
 //fun ktorServer(module: String, version: String? = this@Build_gradle.ktorVersion): Any =
 //    "io.ktor:ktor-server-$module:$version"
@@ -46,6 +47,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.ktor:ktor-server-call-logging-jvm:$ktorVersion")
 
+    implementation("io.ktor:ktor-server-config-yaml:$ktorVersion")
+
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
@@ -70,11 +73,17 @@ dependencies {
     implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
     implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
 
+    implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
+    implementation("io.ktor:ktor-server-caching-headers:$ktorVersion")
+
+    implementation("com.benasher44:uuid:$kmpUUIDVersion")
 
     implementation(project(":common"))
     implementation(project(":api"))
     implementation(project(":mapper"))
     implementation(project(":biz"))
+    implementation(project(":repo-psql"))
+
 
     testImplementation(kotlin("test-junit5"))
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")

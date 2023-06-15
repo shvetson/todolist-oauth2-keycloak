@@ -1,7 +1,7 @@
 package ru.shvets.todolist.common.validate
 
 import io.konform.validation.Invalid
-import ru.shvets.todolist.common.models.todo.TodoError
+import ru.shvets.todolist.common.model.todo.TodoError
 import ru.shvets.todolist.common.repo.todo.DbTodoResponse
 
 /**

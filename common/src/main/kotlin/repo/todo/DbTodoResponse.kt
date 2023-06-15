@@ -1,11 +1,11 @@
 package ru.shvets.todolist.common.repo.todo
 
 import kotlinx.serialization.Serializable
-import ru.shvets.todolist.common.models.todo.Todo
-import ru.shvets.todolist.common.models.todo.TodoError
-import ru.shvets.todolist.common.helpers.errorEmptyId as tdErrorEmptyId
-import ru.shvets.todolist.common.helpers.errorSave as tdErrorSave
-import ru.shvets.todolist.common.helpers.errorNotFound as tdErrorNotFound
+import ru.shvets.todolist.common.model.todo.Todo
+import ru.shvets.todolist.common.model.todo.TodoError
+import ru.shvets.todolist.common.helper.errorEmptyId as tdErrorEmptyId
+import ru.shvets.todolist.common.helper.errorSave as tdErrorSave
+import ru.shvets.todolist.common.helper.errorNotFound as tdErrorNotFound
 
 /**
  * @author  Oleg Shvets

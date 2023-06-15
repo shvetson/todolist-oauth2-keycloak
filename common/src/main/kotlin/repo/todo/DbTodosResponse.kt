@@ -1,8 +1,8 @@
 package ru.shvets.todolist.common.repo.todo
 
 import kotlinx.serialization.Serializable
-import ru.shvets.todolist.common.models.todo.Todo
-import ru.shvets.todolist.common.models.todo.TodoError
+import ru.shvets.todolist.common.model.todo.Todo
+import ru.shvets.todolist.common.model.todo.TodoError
 
 /**
  * @author  Oleg Shvets

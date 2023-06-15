@@ -7,8 +7,8 @@ import ru.shvets.todolist.biz.validation.validateIdProperFormat
 import ru.shvets.todolist.biz.validation.validateTodo
 import ru.shvets.todolist.common.TodoContext
 import ru.shvets.todolist.common.TodoCorSettings
-import ru.shvets.todolist.common.models.todo.TodoCommand
-import ru.shvets.todolist.common.models.todo.TodoId
+import ru.shvets.todolist.common.model.todo.TodoCommand
+import ru.shvets.todolist.common.model.todo.TodoId
 import ru.shvets.todolist.lib.cor.chain
 import ru.shvets.todolist.lib.cor.rootChain
 import ru.shvets.todolist.lib.cor.worker

@@ -1,7 +1,7 @@
 package ru.shvets.todolist.biz.repo
 
 import ru.shvets.todolist.common.TodoContext
-import ru.shvets.todolist.common.models.todo.TodoState
+import ru.shvets.todolist.common.model.todo.TodoState
 import ru.shvets.todolist.common.repo.todo.DbTodoRequest
 import ru.shvets.todolist.lib.cor.ICorChainDsl
 import ru.shvets.todolist.lib.cor.worker

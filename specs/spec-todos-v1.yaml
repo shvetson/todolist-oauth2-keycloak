@@ -185,6 +185,12 @@ components:
           delete: '#/components/schemas/TodoDeleteResponse'
           search: '#/components/schemas/TodoSearchResponse'
 
+
+    UserId: # Can be referenced as '#/components/schemas/UserId'
+      type: string
+      description: Идентификатор пользователя
+      example: "123d4-s1k1l-6h47j-4m544"
+
     TodoId: # Can be referenced as '#/components/schemas/TodoId'
       type: string
       description: Идентификатор todo
@@ -286,6 +292,32 @@ components:
           properties:
             id:
               $ref: '#/components/schemas/TodoId'
+            created:
+              type: string
+              format: date-time
+              description: Дата и время создания todo
+            updated:
+              type: string
+              format: date-time
+              description: Дата и время обновления todo
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/TodoPermissions'
+
+    TodoPermissions:
+      type: string
+      description: Доступы для клиента для операций над todo
+      enum:
+        - read
+        - update
+        - delete
+        - makeVisiblePublic
+        - makeVisibleOwn
+        - makeVisibleGroup
 
     TodoResponseSingle: # Can be referenced as '#/components/schemas/TodoResponseSingle'
       allOf:

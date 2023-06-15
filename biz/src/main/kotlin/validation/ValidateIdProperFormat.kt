@@ -1,9 +1,9 @@
 package ru.shvets.todolist.biz.validation
 
 import ru.shvets.todolist.common.TodoContext
-import ru.shvets.todolist.common.helpers.fail
-import ru.shvets.todolist.common.helpers.resultErrorValidation
-import ru.shvets.todolist.common.models.todo.TodoId
+import ru.shvets.todolist.common.helper.fail
+import ru.shvets.todolist.common.helper.resultErrorValidation
+import ru.shvets.todolist.common.model.todo.TodoId
 import ru.shvets.todolist.lib.cor.ICorChainDsl
 import ru.shvets.todolist.lib.cor.worker
 

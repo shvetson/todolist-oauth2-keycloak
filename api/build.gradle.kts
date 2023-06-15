@@ -6,9 +6,9 @@ plugins {
 val apiVersion = "v1"
 val apiSpec: Configuration by configurations.creating
 val apiSpecVersion: String by project
+val jacksonVersion: String by project
 
 dependencies {
-    val jacksonVersion: String by project
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
