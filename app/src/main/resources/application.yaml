@@ -35,9 +35,9 @@ db:
       enableSsl: false
 
 jwt:
-  secret: "mJ2sgfwdiSH75ROdZJMIHkzMsUxdEyQ3"
   issuer: "http://localhost:8081/auth/realms/my-auth-server"
   audience: "todos-users"
   realm: "my-auth-server"
   clientId: "todos-service"
-  certUrl: "http://localhost:8081/auth/realms/com-crowdproj-rating/protocol/openid-connect/certs"
+  certUrl: "http://localhost:8081/auth/realms/my-auth-server/protocol/openid-connect/certs"
+#  secret: "kAyhoCaF2Ba2tDv1tauqwSGN04ibSsED"

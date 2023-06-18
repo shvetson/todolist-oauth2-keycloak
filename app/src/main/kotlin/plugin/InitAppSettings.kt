@@ -2,7 +2,7 @@ package ru.shvets.todolist.app.plugin
 
 import io.ktor.server.application.*
 import ru.shvets.todolist.app.TodoAppSettings
-import ru.shvets.todolist.app.authentication.base.KtorAuthConfig
+import ru.shvets.todolist.app.base.KtorAuthConfig
 import ru.shvets.todolist.app.config.DbType
 import ru.shvets.todolist.app.config.getDatabaseConf
 import ru.shvets.todolist.biz.TodoProcessor

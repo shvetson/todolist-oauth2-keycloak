@@ -1,12 +1,15 @@
 package ru.shvets.todolist.app.plugin
 
 import com.auth0.jwt.JWT
+import com.auth0.jwt.JWTVerifier
+import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import ru.shvets.todolist.app.TodoAppSettings
-import ru.shvets.todolist.app.authentication.base.KtorAuthConfig.Companion.GROUPS_CLAIM
-import ru.shvets.todolist.app.authentication.base.resolveAlgorithm
+import ru.shvets.todolist.app.base.KtorAuthConfig
+import ru.shvets.todolist.app.base.KtorAuthConfig.Companion.GROUPS_CLAIM
+import ru.shvets.todolist.app.base.resolveAlgorithm
 
 /**
  * @author  Oleg Shvets
@@ -15,7 +18,6 @@ import ru.shvets.todolist.app.authentication.base.resolveAlgorithm
  */
 
 fun Application.configureSecurity(appSettings: TodoAppSettings) {
-
     install(Authentication) {
         jwt("auth-jwt") {
             val authConfig = appSettings.auth
@@ -23,11 +25,7 @@ fun Application.configureSecurity(appSettings: TodoAppSettings) {
 
             verifier {
                 val algorithm = it.resolveAlgorithm(authConfig)
-                JWT
-                    .require(algorithm)
-                    .withAudience(authConfig.audience)
-                    .withIssuer(authConfig.issuer)
-                    .build()
+                makeJWTVerifier(algorithm, authConfig)
             }
             validate { jwtCredential: JWTCredential ->
                 when {
@@ -35,10 +33,15 @@ fun Application.configureSecurity(appSettings: TodoAppSettings) {
                         this@configureSecurity.log.error("Groups claim must not be empty in JWT token")
                         null
                     }
-
                     else -> JWTPrincipal(jwtCredential.payload)
                 }
             }
         }
     }
 }
+
+fun makeJWTVerifier(algorithm: Algorithm, authConfig: KtorAuthConfig): JWTVerifier =
+    JWT.require(algorithm)
+        .withIssuer(authConfig.issuer)
+        .withAudience(authConfig.audience)
+        .build()

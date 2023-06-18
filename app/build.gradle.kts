@@ -44,6 +44,7 @@ dependencies {
 
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
+
     implementation("commons-codec:commons-codec:$commonsCodecVersion")
 
     implementation(kotlin("stdlib"))
@@ -58,6 +59,10 @@ dependencies {
 
     implementation("io.ktor:ktor-server-auto-head-response:$ktorVersion")
     implementation("io.ktor:ktor-server-caching-headers:$ktorVersion")
+
+    implementation("io.ktor:ktor-server-swagger:$ktorVersion")
+
+    implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
 
     implementation(project(":common"))
     implementation(project(":api"))

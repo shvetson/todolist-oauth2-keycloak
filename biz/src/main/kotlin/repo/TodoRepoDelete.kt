@@ -17,6 +17,6 @@ fun ICorChainDsl<TodoContext>.repoDelete(title: String) = worker {
             state = TodoState.FAILING
             errors.addAll(result.errors)
         }
-        todoRepoDone = todoRepoRead
+        todoRepoDone = todoRepoRead.deepCopy()
     }
 }

@@ -1,6 +1,6 @@
 package ru.shvets.todolist.app
 
-import ru.shvets.todolist.app.authentication.base.KtorAuthConfig
+import ru.shvets.todolist.app.base.KtorAuthConfig
 import ru.shvets.todolist.biz.TodoProcessor
 import ru.shvets.todolist.common.TodoCorSettings
 

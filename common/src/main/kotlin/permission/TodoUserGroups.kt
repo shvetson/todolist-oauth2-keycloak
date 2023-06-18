@@ -2,8 +2,8 @@ package ru.shvets.todolist.common.permission
 
 enum class TodoUserGroups {
     USER,
-    ADMIN_RATINGS,
-    MODERATOR_CWP,
+    ADMIN_TODO,
+    MODERATOR_TODO,
     TEST,
-    BAN_RATINGS
+    BAN_TODO
 }

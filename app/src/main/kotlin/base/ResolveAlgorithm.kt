@@ -1,11 +1,11 @@
-package ru.shvets.todolist.app.authentication.base
+package ru.shvets.todolist.app.base
 
 import com.auth0.jwk.Jwk
 import com.auth0.jwk.UrlJwkProvider
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.http.auth.*
-import ru.shvets.todolist.app.authentication.base.KtorAuthConfig
+import ru.shvets.todolist.app.base.KtorAuthConfig
 import java.net.URL
 import java.security.interfaces.RSAPublicKey
 

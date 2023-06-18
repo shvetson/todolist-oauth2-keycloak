@@ -2,7 +2,7 @@
 POST http://localhost:8081/auth/realms/my-auth-server/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
-client_id=todos-service&grant_type=password&username=shvetson&password=12345&client_secret=mJ2sgfwdiSH75ROdZJMIHkzMsUxdEyQ3
+client_id=todos-service&grant_type=password&username=shvetson&password=12345
 
 > {% client.global.set("auth_token", response.body.access_token);
 client.global.set("refresh_token", response.body.refresh_token); %}
@@ -11,7 +11,7 @@ client.global.set("refresh_token", response.body.refresh_token); %}
 POST http://localhost:8081/auth/realms/my-auth-server/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
-client_id=todos-service&grant_type=refresh_token&refresh_token={{refresh_token}}&client_secret=mJ2sgfwdiSH75ROdZJMIHkzMsUxdEyQ3
+client_id=todos-service&grant_type=refresh_token&refresh_token={{refresh_token}}&client_secret=kAyhoCaF2Ba2tDv1tauqwSGN04ibSsED
 
 ### Create
 POST http://127.0.0.1:8080/api/v1/todos/create
@@ -21,7 +21,7 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "create",
   "todo": {
-    "title": "Test #3",
+    "title": "Test ##",
     "isDone": false
   }
 }
@@ -34,7 +34,7 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "read",
   "todo": {
-    "id": "64c3c89f-a3f7-4f72-9953-c8a5209c8274"
+    "id": "77354a21-cfa0-43e8-8e62-a64d24353b90"
   }
 }
 
@@ -46,8 +46,8 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "update",
   "todo": {
-    "id": "64c3c89f-a3f7-4f72-9953-c8a5209c8274",
-    "title": "Test #3 updated",
+    "id": "c3f01527-6899-436c-aa3d-8deb90690bd4",
+    "title": "Test ## updated",
     "isDone": false
   }
 }
@@ -60,7 +60,7 @@ Authorization: Bearer {{auth_token}}
 {
   "requestType": "delete",
   "todo": {
-    "id": "42"
+    "id": "c3f01527-6899-436c-aa3d-8deb90690bd4"
   }
 }
 

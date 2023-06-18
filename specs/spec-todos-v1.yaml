@@ -121,6 +121,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TodoSearchResponse'
+#security:
+#  - OAuth2: []
 
 components:
   #-------------------------------
@@ -387,3 +389,12 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      description: "Срок жизни access token 5 минут"
+#      flows:
+#        password:
+#          tokenUrl: http://localhost:8081/auth/realms/my-auth-server/protocol/openid-connect/token
+#          scopes: {}

@@ -1,4 +1,4 @@
-package ru.shvets.todolist.app.authentication.base
+package ru.shvets.todolist.app.base
 
 data class KtorAuthConfig(
     val secret: String,
@@ -8,6 +8,7 @@ data class KtorAuthConfig(
     val clientId: String,
     val certUrl: String? = null,
 ) {
+
     companion object {
         const val ID_CLAIM = "sub"
         const val GROUPS_CLAIM = "groups"

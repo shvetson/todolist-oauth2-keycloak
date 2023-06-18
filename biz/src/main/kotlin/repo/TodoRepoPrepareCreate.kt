@@ -10,7 +10,8 @@ fun ICorChainDsl<TodoContext>.repoPrepareCreate(title: String) = worker {
     description = "Подготовка объекта к сохранению в базе данных"
     on { state == TodoState.RUNNING }
     handle {
-        todoRepoRead = todoValidated
+        todoRepoRead = todoValidated.deepCopy()
+        todoRepoRead.ownerId = principal.id
         todoRepoPrepare = todoRepoRead
     }
 }

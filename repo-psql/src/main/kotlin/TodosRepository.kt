@@ -19,7 +19,7 @@ import ru.shvets.todolist.common.repo.todo.*
  * @date  15.05.2023 11:43
  */
 
-class TodoRepository(
+class TodosRepository(
     properties: SqlProperties,
     private val randomUuid: () -> String = { uuid4().toString() },
 ) : ITodoRepository {

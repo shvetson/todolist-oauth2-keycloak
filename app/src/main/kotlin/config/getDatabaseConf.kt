@@ -1,7 +1,7 @@
 package ru.shvets.todolist.app.config
 
 import io.ktor.server.application.*
-import ru.shvets.todolist.repo.psql.TodoRepository
+import ru.shvets.todolist.repo.psql.TodosRepository
 import ru.shvets.todolist.common.repo.todo.ITodoRepository
 import ru.shvets.todolist.repo.psql.SqlProperties
 
@@ -24,7 +24,7 @@ fun Application.getDatabaseConf(type: DbType): ITodoRepository {
 
 private fun Application.initPostgres(): ITodoRepository {
     val config = PostgresConfig(environment.config)
-    return TodoRepository(
+    return TodosRepository(
         properties = SqlProperties(
             url = config.url,
             user = config.user,

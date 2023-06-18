@@ -12,4 +12,5 @@ dependencies {
 
     implementation(project(":common"))
     implementation(project(":lib-cor"))
+    implementation(project(":auth"))
 }
